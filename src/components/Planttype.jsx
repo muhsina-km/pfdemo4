@@ -55,8 +55,9 @@ const Planttype = () => {
           <Form.Item
             label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
               Plant Type </span>}
-            name="plantid">
+            >
             <Input
+            name="plantid"
               value={ptype.Planttype}
               onChange={(e) => ptypehandler(e.target.value, "Planttype")}
             />
@@ -65,8 +66,9 @@ const Planttype = () => {
           <Form.Item
             label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
               Status </span>}
-            name="status">
+            >
             <Select
+            name="status"
               value={ptype.Status}
               onChange={(value) => ptypehandler(value, "Status")}>
               <Option value="ACTIVE">ACTIVE</Option>

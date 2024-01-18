@@ -45,7 +45,7 @@
   }
 
   .background-c {
-    background-image: url('https://wallpapercave.com/wp/wp8153887.jpg');
+    /* background-image: url('https://wallpapercave.com/wp/wp8153887.jpg'); */
     background-size: cover; /* Adjust as needed: 'cover', 'contain', etc. */
     background-position: center; /* Adjust as needed: 'center', 'top', 'bottom', etc. */
     background-repeat: no-repeat;
@@ -57,7 +57,7 @@
     margin: 0;
     font-family: cursive; 
     color: #ffffff; 
-    /* background: transparent; */
+    background: transparent;
   }
 
   .background-4 {

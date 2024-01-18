@@ -2,7 +2,7 @@
 .sidebar {
     width: 200px;
     height: 100%;
-    background-color: #F14F93;
+    background-color: rgb(40, 153, 218);
     /* background-image: url('https://th.bing.com/th/id/R.f6a54018c7dc21b13bc50b3028a505c1?rik=S%2bvsl43J5kwysA&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fbctOXl2.png&ehk=oRNRjuA5iN7wPrr%2fkPIWZYU8bBPwBzdX8mISG%2blMsEI%3d&risl=&pid=ImgRaw&r=0'); */
     color: #f7f4f4;
     position: fixed;

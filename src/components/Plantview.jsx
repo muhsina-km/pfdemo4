@@ -37,11 +37,11 @@ const Plantview = () => {
 
     }
     var result =
-        <div className='background-3'>
+        <div>
 
             <Navbar/>
 
-            <h1 style={{ textAlign: 'center', marginTop: '100px', marginLeft: '100px' }}>
+            <h1 style={{ textAlign: 'center', marginTop: '100px', marginLeft: '100px', color: '#000000' }}>
         Plant Details View
       </h1>
 

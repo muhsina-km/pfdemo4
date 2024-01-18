@@ -14,7 +14,7 @@ const Plant = () => {
   const [form] = Form.useForm();
   
   var [inputs, setInputs] = useState({
-    "plantid": '', "plantname": '', "planttype": '', "color": '', "size": '',
+    "plantid": '', "plantname": '', "planttypeid": '', "color": '', "size": '',
     "price": '', "description": '', "stock": '', "status": 'ACTIVE'
   })
 
@@ -24,8 +24,8 @@ const Plant = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(inputs)
-    axios.get ('http://localhost:3005/pview')
+    console.log("fnd")
+    axios.get ('http://localhost:3005/ptview')
       .then(response => {
         console.log(response.data)
         setPlanttype(response.data)
@@ -55,7 +55,7 @@ const Plant = () => {
     const formdata = new FormData();
     formdata.append('plantid', inputs.plantid);
     formdata.append('plantname', inputs.plantname);
-    formdata.append('planttype', inputs.planttype);
+    formdata.append('planttypeid', inputs.planttypeid);
     formdata.append('color', inputs.color);
     formdata.append('size', inputs.size);
     formdata.append('price', inputs.price);
@@ -118,8 +118,8 @@ const Plant = () => {
           <Form.Item 
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Plant Code </span>}
-          name="plantid">
-            <Input 
+          >
+            <Input  name="plantid"
             value={inputs.plantid}
             onChange={inputHandler} />
           </Form.Item>
@@ -127,8 +127,9 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Plant Name </span>} 
-          name="plantname">
+          >
             <Input 
+            name="plantname"
             value={inputs.plantname}
             onChange={inputHandler} />
           </Form.Item>
@@ -136,23 +137,26 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Plant Type </span>}
-          name="planttype">
+          >
             <Select 
-             value={inputs.planttype}
-             onChange={(value) => setInputs((prevInputs) => ({ ...prevInputs, planttype: value }))}>
-              {planttype.map((value) => (
-                <Option key={value._id} value={value._id}>
-                  {value.Pname}
-                </Option>
-              ))}
+            name="planttypeid"
+            value={inputs.planttypeid} onChange={inputHandler}>
+              {
+              planttype.map((value,index) => {
+                return(
+                <Option key={index} value={value._id}>{value.Planttype}</Option>
+                )
+                })
+              }
             </Select>
           </Form.Item>
 
           <Form.Item 
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Color </span>}
-          name="color">
+          >
             <Input 
+            name="color"
             value={inputs.color}
             onChange={inputHandler} />
           </Form.Item>
@@ -160,17 +164,24 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Size </span>}
-          name="size">
-            <Input 
+          >
+           <Select 
+            name="size"
             value={inputs.size}
-            onChange={inputHandler} />
+            onChange={inputHandler}>
+              <Option value="small">Small</Option>
+              <Option value="medium">Medium</Option>
+              <Option value="large">Large</Option>
+            </Select>
           </Form.Item>
 
           <Form.Item 
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Price </span>}
-          name="price">
-            <Input type="number" 
+         >
+            <Input 
+             name="price"
+             type="number" 
             value={inputs.price}
             onChange={inputHandler} />
           </Form.Item>
@@ -178,8 +189,9 @@ const Plant = () => {
           <Form.Item 
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Description </span>}
-          name="description">
+          >
             <Input.TextArea rows={4} 
+            name="description"
             value={inputs.description}
             onChange={inputHandler} />
           </Form.Item>
@@ -187,8 +199,9 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Stock </span>}
-          name="stock">
+         >
             <Input type="number" 
+             name="stock"
             value={inputs.stock}
             onChange={inputHandler} />
           </Form.Item>
@@ -196,9 +209,9 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Image </span>}
-          name="plantphoto">
+          >
             <Upload
-            name='plantphoto'
+            name="plantphoto"
               customRequest={() => {}} // You need to implement the file upload logic here
               onChange={handleImage}
               showUploadList={false}
@@ -210,8 +223,9 @@ const Plant = () => {
           <Form.Item
           label={<span style={{ color: '#ffffff', fontFamily: 'cursive', fontSize: '16px' }}>
           Status </span>}
-          name="status">
+          >
             <Select 
+            name="status"
             value={inputs.status}
             onChange={(value) => setInputs((prevInputs) => ({ ...prevInputs, status: value }))}>
               <Option value="ACTIVE">ACTIVE</Option>

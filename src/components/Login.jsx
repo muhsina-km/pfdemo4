@@ -50,7 +50,7 @@ const App = () => {
      
   return (
 
-    <div className='background-3'>
+    <div className='background-container'>
       <center>
 
         <Card
@@ -123,6 +123,7 @@ const App = () => {
             >
               <Space>
                 <Button htmlType="submit"
+                color='success'
                   onClick={CheckError}>
                   LOGIN
                 </Button>

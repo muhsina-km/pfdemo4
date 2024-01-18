@@ -1,128 +1,127 @@
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import Plantdetailsedit from './Plantdetailsedit';
-import {Buffer} from 'buffer'
-import React from 'react';
-import { Table, Popconfirm, Space, Button ,Card } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Buffer } from 'buffer'
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
-
-
-const { Column } = Table;
+import { Modal } from 'antd';
 
 const Plantdetailsview = () => {
-    
-    var [Plantdetailsview, setPlantdetailsview] = useState([])
-    var [selected, setSelected] = useState();
-    var [update, setUpdate] = useState(false);
 
-    useEffect(() => {
-        axios.get('http://localhost:3005/pview/')
-          .then(response => {
-            console.log(response.data);
-            setPlantdetailsview(response.data);
-          })
-          .catch(err => console.log(err));
-      }, []);
-    
-      const deletevalues = (id) => {
-  console.log("Deleting", id);
-  axios.put(`http://localhost:3005/updatestatus/${id}`)
-    .then(() => {
-      console.log("Deleted successfully");
-      alert("DELETED");
-      setPlantdetailsview(prevDetails =>
-        prevDetails.map(item =>
-          item._id === id ? { ...item, status: "INACTIVE" } : item
-        )
-      );
-    })
-    .catch(error => {
-      console.error("Error deleting record:", error);
-      alert("Error deleting record. Please check console for details.");
-    });
-};
-    
-      const updatevalues = (value) => {
-        console.log("Updating", value);
-        setSelected(value);
-        setUpdate(true);
-      };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
-    var result=
+  var [Plantdetailsview, setPlantdetailsview] = useState([])
+  var [selected, setSelected] = useState();
+  var [update, setUpdate] = useState(false);
 
-    <div className='background-3'>
- 
-      <Navbar/>
+  useEffect(() => {
+    axios.get("http://localhost:3005/pview/")
+      .then(response => {
+        console.log(response.data)
+        setPlantdetailsview(response.data)
+      })
+      .catch(err => console.log(err))
+  }, [])
 
-      <h1 style={{ textAlign: 'center', marginTop: '100px', marginLeft: '100px' }}>
+  const deletevalues = (id) => {
+    console.log("Deleted", id)
+    axios.put("http://localhost:3005/updatestatus/" + id)
+      .then((response) => {
+        alert("DELETED")
+        window.location.reload(false);
+      })
+  }
+
+  const updatevalues = (value) => {
+    console.log("Updated", value);
+    setSelected(value);
+    setUpdate(true);
+  }
+
+  var result =
+
+    <div>
+
+      <Navbar />
+      {/* <Sidebar/> */}
+
+      <h1 style={{ textAlign: 'center', marginTop: '100px', marginLeft: '100px', color: '#000000' }}>
         Plant Details View
       </h1>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Plant ID</TableCell>
+              <TableCell>Plant Name</TableCell>
+              <TableCell>Plant Type</TableCell>
+              <TableCell>Color</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Stock</TableCell>
+              <TableCell>Image</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
 
-    <Card 
-      className='background-2'
-      bordered={true}
-      style={{ 
-        marginTop: "-0.1%",
-        marginBottom: "2%",
-        }}>
+          <TableBody>
+            {Plantdetailsview.map((value, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell>{value.plantid}</TableCell>
+                  <TableCell>{value.plantname}</TableCell>
+                  <TableCell>{value.planttype}</TableCell>
+                  <TableCell>{value.color}</TableCell>
+                  <TableCell>{value.size}</TableCell>
+                  <TableCell>{value.price}</TableCell>
+                  <TableCell>{value.description}</TableCell>
+                  <TableCell>{value.stock}</TableCell>
+                  <TableCell>
+                    <img src={`data:image/jpeg;base64,${Buffer.from(value.plantphoto.data).toString('base64')}`} width="50" height="50" alt="Error" />
+                  </TableCell>
+                  <TableCell>{value.status}</TableCell>
+                  <TableCell>
+                    <ModeEditOutlineIcon color='secondary' onClick={() => updatevalues(value)} />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteForeverIcon color='error' onClick={() => deletevalues(value._id)}>
+                    </DeleteForeverIcon>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
 
-    <Table dataSource={Plantdetailsview} bordered>
-      <Column title="Plant ID" dataIndex="plantid" key="plantid" />
-      <Column title="Plant Name" dataIndex="plantname" key="plantname" />
-      <Column title="Plant Type" dataIndex="planttype" key="planttype" />
-      <Column title="Color" dataIndex="color" key="color" />
-      <Column title="Size" dataIndex="size" key="size" />
-      <Column title="Price" dataIndex="price" key="price" />
-      <Column title="Description" dataIndex="description" key="description" />
-      <Column title="Stock" dataIndex="stock" key="stock" />
-      <Column
-          title="Image"
-          dataIndex="plantphoto"
-          key="plantphoto"
-          render={(text, record) => (
-            <img
-              src={`data:image/jpeg;base64, ${Buffer.from(record.plantphoto.data).toString('base64')}`}
-              alt="Error"
-              width="50"
-              height="50"
-            />
-          )}
-        />
-        <Column title="Status" dataIndex="status" key="status" />
-        <Column
-          title="Actions"
-          key="actions"
-          render={(text, record) => (
-            <Space size="middle">
-              <Button type="primary" icon={<EditOutlined />} onClick={() => updatevalues(record)}>
-                Edit
-              </Button>
-              <Popconfirm
-                title="Are you sure to delete this plant?"
-                onConfirm={() => deletevalues(record._id)}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button type="primary" danger icon={<DeleteOutlined />}>
-                Delete
-                </Button>
-              </Popconfirm>
-            </Space>
-          )}
-        />
-      </Table>
-      </Card>
+        </Table>
+      </TableContainer>
+
+<Modal title="Basic Modal" open={selected} onOk={handleOk} onCancel={handleCancel}>
+<Plantdetailsedit data={selected} method='put' />
+</Modal>
     </div>
 
-if(update){
-    result=<Plantdetailsedit data={selected} method='put'/>
+  // if (update) {
+  //   result = <Plantdetailsedit data={selected} method='put' />
+  // }
+
+  return (result)
 }
 
-return (result)
-}
 
- 
 
 export default Plantdetailsview
